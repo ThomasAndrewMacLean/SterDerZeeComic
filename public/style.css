@@ -1,0 +1,125 @@
+#fileInput {
+    display: none;
+}
+
+html,
+body {
+    margin: 0;
+}
+
+html {
+    height: 100%;
+    background: lightblue;
+    width: 100vw;
+}
+
+main {
+    background: white;
+    min-height: calc(90vh - 110px);
+    width: 80%;
+    padding: 5%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 35px;
+    position: relative;
+}
+
+nav {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin: 25px 5%;
+}
+
+ul {
+    display: flex;
+    list-style: none;
+}
+
+li {
+    margin: 10px;
+}
+
+.nav-link {
+    color: #222;
+    text-decoration: none;
+}
+
+li.active {
+    border-bottom: 2px solid #555;
+}
+
+footer {
+    height: 40px;
+    background: #f8f8ff;
+    position: relative;
+    width: 100vw;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: medium;
+}
+
+.emoji {
+    font-size: large;
+    font-style: normal;
+}
+
+/* dropbox */
+
+.is-dragover {
+    background: lightblue;
+}
+
+.canvas-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+canvas {
+    border: 1px dashed gainsboro;
+    border-radius: 5px;
+}
+
+#uploadButton:disabled {
+    cursor: not-allowed;
+    color: #555;
+    border: 1px solid #bbb;
+    background: #CCC;
+}
+
+.loading {
+    display: none;
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    justify-content: space-evenly;
+    align-items: center;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(173, 216, 230, 0.6);
+}
+
+.loading-gif {
+    padding: 25px;
+    border: 3px solid lightblue;
+    border-radius: 3px;
+    background: white;
+}
+
+.loading-msg {
+    color: #555;
+    font-size: xx-large;
+    padding: 25px;
+    border: 3px solid lightblue;
+    border-radius: 3px;
+    background: white;
+}
+
+.show {
+    display: flex !important;
+}
