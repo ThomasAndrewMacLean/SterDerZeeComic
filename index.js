@@ -63,59 +63,87 @@ app.get('/', (req, res) => res.render('home'));
 app.get('/home', (req, res) => res.render('home'));
 app.get('/opladen', (req, res) => {
     const token = req.cookies['auth-token'];
+
+    console.log(token);
+
+
     if (!token) {
+        console.log('SEND TO LOGIN');
+
         res.render('login')
+    } else {
+
+
+        console.log('INIT VERIFYTOKEN');
+
+        client.verifyIdToken({
+            idToken: token,
+            audience: CLIENT_ID,
+        }).then(ticket => {
+            if (ticket.getPayload().email === 'thomas.maclean@gmail.com') {
+                res.render('opladen')
+            } else {
+                console.log('TICKET IS NOT CORRECT EMAIL');
+
+                res.render('nope')
+            }
+        }).catch(err => console.log(err))
+        // .catch(err => {
+        //     console.log('ERROR CAUGHT... ');
+
+        //     console.log(err);
+        //     // res.render('nope')
+        // });
     }
-    client.verifyIdToken({
-        idToken: token,
-        audience: CLIENT_ID,
-    }).then(ticket => {
-        if (ticket.getPayload().email === 'thomas.maclean@gmail.com') {
-            res.render('opladen')
-        } else {
-            res.render('nope')
-        }
-    })
 });
 app.get('/contact', (req, res) => {
     const token = req.cookies['auth-token'];
     if (!token) {
         res.render('login')
+    } else {
+        client.verifyIdToken({
+            idToken: token,
+            audience: CLIENT_ID,
+        }).then(ticket => {
+            if (ticket.getPayload().email === 'thomas.maclean@gmail.com') {
+                res.render('contact')
+            } else {
+                res.render('nope')
+            }
+        })
+        // .catch(err => {
+        //     console.log(err);
+        //     res.render('nope')
+        // });
     }
-    client.verifyIdToken({
-        idToken: token,
-        audience: CLIENT_ID,
-    }).then(ticket => {
-        if (ticket.getPayload().email === 'thomas.maclean@gmail.com') {
-            res.render('contact')
-        } else {
-            res.render('nope')
-        }
-    })
 });
 app.get('/volgorde', (req, res) => {
     const token = req.cookies['auth-token'];
     if (!token) {
         res.render('login')
-    }
-    client.verifyIdToken({
-        idToken: token,
-        audience: CLIENT_ID,
-    }).then(ticket => {
-        if (ticket.getPayload().email === 'thomas.maclean@gmail.com') {
-            images.find({})
-                .then(images => {
-                    console.log('images');
+    } else {
+        client.verifyIdToken({
+            idToken: token,
+            audience: CLIENT_ID,
+        }).then(ticket => {
+            if (ticket.getPayload().email === 'thomas.maclean@gmail.com') {
+                images.find({})
+                    .then(images => {
+                        console.log('images');
 
-                    res.render('volgorde', {
-                        images
+                        res.render('volgorde', {
+                            images
+                        })
                     })
-                })
-        } else {
-            res.render('nope')
-        }
-    })
-
+            } else {
+                res.render('nope')
+            }
+        })
+        // .catch(err => {
+        //     console.log(err);
+        //     res.render('nope')
+        // });
+    }
 
 });
 app.get('/story', (req, res) => res.render('story'));
