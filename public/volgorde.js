@@ -35,6 +35,15 @@ drop_handler = (evt) => {
     let erboven = evt.target.classList.contains('bovensteHelft');
 
     console.log(erboven);
+    if (!dragCard || !dropCard) {
+        console.log('??? hoe kan dat');
+        evt.target.classList.remove('bovensteHelft')
+        evt.target.classList.remove('ondersteHelft')
+        dragCard = null;
+        dropCard = null;
+        return;
+    }
+
 
     if (dropCard === dragCard) {
         console.log('zelfde kaart')
@@ -46,6 +55,7 @@ drop_handler = (evt) => {
         if (!erboven) {
             indexDrop++
         }
+
 
         volgorde.volgorde.splice(indexDrag, 1);
         volgorde.volgorde.splice(indexDrop, 0, dragCard)

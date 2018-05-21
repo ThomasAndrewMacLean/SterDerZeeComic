@@ -33,7 +33,7 @@
             </ul>
         </nav>
         <h1>Volgorde.</h1>
-        <button id="postData">update</button>
+
         <hr>
         <p>Versleep de afbeeldingen om de volgorde aan te passen.</p>
 
@@ -43,8 +43,12 @@
             <div class="card" draggable="true" id="<%=img._id %>" ondrop="drop_handler(event)" ondragleave="dragleave_handler(event)"
                 ondragover="dragover_handler(event);" ondrag="ondrag_handler(event)">
                 <img height="150" src="<%=img.url %>" />
-                <%= img.name%>
+                <div>
+                    <%= img.name%>
+                </div>
+                <div>
                     <%= img.description%>
+                </div>
             </div>
 
 

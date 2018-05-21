@@ -1,30 +1,32 @@
 .card {
-    border: 1px solid #222;
-    margin: 20px;
+    border: 1px solid #999;
+    border-radius: 5px;
+    margin: 15px;
     position: relative;
-}
-
-.ontop {
-    background: red;
-    /* margin-top: 20px; */
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
 .bovensteHelft::before {
     content: '';
     height: 20px;
     width: 100%;
-    top: -20px;
+    top: 0;
     left: 0;
-    background: green;
+    /* background: green; */
     position: absolute;
+    box-shadow: #999 0px -15px 20px 2px;
+    z-index: 999;
 }
 
 .ondersteHelft::after {
     content: '';
     height: 20px;
     width: 100%;
-    bottom: -20px;
+    bottom: 0;
     left: 0;
-    background: blue;
     position: absolute;
+    box-shadow: #999 0px 15px 20px 2px;
+    z-index: 999;
 }

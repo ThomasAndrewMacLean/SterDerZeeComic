@@ -110,23 +110,23 @@ app.get('/opladen', (req, res) => {
         console.log('INIT VERIFYTOKEN');
 
         client.verifyIdToken({
-            idToken: token,
-            audience: CLIENT_ID,
-        }).then(ticket => {
-            if (ticket.getPayload().email === 'thomas.maclean@gmail.com') {
-                res.render('opladen')
-            } else {
-                console.log('TICKET IS NOT CORRECT EMAIL');
+                idToken: token,
+                audience: CLIENT_ID,
+            }).then(ticket => {
+                if (ticket.getPayload().email === 'thomas.maclean@gmail.com') {
+                    res.render('opladen')
+                } else {
+                    console.log('TICKET IS NOT CORRECT EMAIL');
 
-                res.render('nope')
-            }
-        }).catch(err => console.log(err))
-        // .catch(err => {
-        //     console.log('ERROR CAUGHT... ');
+                    res.render('nope')
+                }
+            }) //.catch(err => console.log(err))
+            .catch(err => {
+                console.log('ERROR CAUGHT... ');
 
-        //     console.log(err);
-        //     // res.render('nope')
-        // });
+                console.log(err);
+                res.render('login')
+            });
     }
 });
 app.get('/contact', (req, res) => {
@@ -197,7 +197,7 @@ app.get('/test', (req, res) => {
 })
 
 app.delete('/data', (req, res) => {
-    let reallyDelete = false;
+    let reallyDelete = true;
     if (reallyDelete) {
         images.remove({})
         volgorde.remove({})
@@ -219,6 +219,19 @@ app.get('/getVolgordeJson', (req, res) => {
         .then(d => {
             res.status(200).json(d);
         })
+})
+app.get('/strip', (req, res) => {
+    volgorde.find({
+        id: 'volgorde'
+    }).then(volg => {
+        images.find({})
+            .then(images => {
+                let imagesOpVolgorde = volg[0].volgorde.map(v => images.find(i => i._id.toString() == v));
+                res.status(200).json({
+                    strip: imagesOpVolgorde
+                });
+            })
+    })
 })
 cloudinary.config({
     cloud_name: 'dictffhrv',

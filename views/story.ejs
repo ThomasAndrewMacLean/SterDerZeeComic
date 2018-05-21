@@ -7,39 +7,39 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>* SDZ *</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="normalize.css">
-    <link rel="stylesheet" href="skeleton.css">
 
-    <link rel="stylesheet" href="main.css">
+    <style>
+        html,
+        body {
+            margin: 0;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        img {
+            width: 100%;
+        }
+
+        .strip-container {
+            height: 100%;
+            width: 100%;
+            max-width: 500px;
+            background: lightblue;
+            margin: auto;
+            display: flex;
+            align-items: center;
+        }
+    </style>
 </head>
 
 <body>
-    <main>
-        <nav>
-            <ul>
-                <li>
-                    <a class="nav-link" href="/home">home</a>
-                </li>
-
-            </ul>
-        </nav>
-        <h1>Story</h1>
-        <hr>
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Debitis, exercitationem commodi reiciendis velit dolorum
-            fugit aut voluptates natus dolores ut sunt magnam excepturi porro similique animi nobis adipisci nam inventore!</p>
 
 
-    </main>
-    <footer>
-        <code>
-            made by:
-            <a href="mailto:thomas.maclean+work@gmail.com">thomas maclean</a>
-            <i class="emoji">🤖</i>
-
-            <%='© ' +new Date().getFullYear() %>
-        </code>
-    </footer>
-    <script src="main.js"></script>
+    <div class="strip-container">
+        <img>
+    </div>
+    <script src="http://hammerjs.github.io/dist/hammer.min.js"></script>
+    <script src="story.js"></script>
 
 </body>
 
