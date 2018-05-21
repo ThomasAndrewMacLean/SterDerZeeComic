@@ -1,3 +1,4 @@
+const api = 'http://localhost:8080/uploadfile'
 const button = document.querySelector('#uploadButton');
 const cancelButton = document.querySelector('#cancelButton');
 const fileInput = document.querySelector('#fileInput');
@@ -7,8 +8,6 @@ const loading = document.querySelector('.loading');
 const body = document.querySelector('body');
 
 button.disabled = true;
-const api = 'http://localhost:8080/uploadfile'
-
 let uploadFile;
 
 drawImageToCanvas = (file) => {
@@ -43,6 +42,8 @@ clearAllData = () => {
     fileInput.files[0] = null;
     button.disabled = true;
     const context = canvas.getContext('2d');
+    form.querySelector('input[name="name"]').value = '';
+    form.querySelector('input[name="desc"]').value = '';
     context.clearRect(0, 0, canvas.width, canvas.height);
 }
 

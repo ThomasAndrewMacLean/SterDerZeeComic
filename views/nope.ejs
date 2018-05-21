@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>NOPE</title>
+    <meta name="google-signin-client_id" content="171417293160-m0dcbi10fgm434j0l73m1t9t0rnc48o8.apps.googleusercontent.com">
+
+</head>
+
+<body>
+    <h1>
+        <i id="naam">U</i> heeft geen toegang...</h1>
+
+    <a href="#" onclick="signOut();">Log uit</a> om vervolgens onder een ander account terug in te loggen
+
+    <script>
+        function signOut() {
+            var auth2 = gapi.auth2.getAuthInstance();
+            auth2.disconnect().then(function () {
+                console.log('User signed out.');
+            });
+        }
+    </script>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script>
+        function onSignIn(googleUser) {
+            var profile = googleUser.getBasicProfile();
+            let name = profile.getName();
+            document.getElementById('naam').innerHTML = name;
+
+            var id_token = googleUser.getAuthResponse().id_token;
+            console.log(id_token)
+
+            var d = new Date();
+            d.setTime(d.getTime() + (10 * 24 * 60 * 60 * 1000));
+            var expires = "expires=" + d.toUTCString();
+            document.cookie = "auth-token=" + id_token + ";" + expires + ";path=/";
+        }
+    </script>
+</body>
+
+</html>

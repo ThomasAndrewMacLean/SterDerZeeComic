@@ -5,6 +5,7 @@ if (process.env.NODE_ENV !== 'production') {
 const express = require('express');
 const cloudinary = require('cloudinary');
 const ejs = require('ejs');
+var cookieParser = require('cookie-parser')
 
 const morgan = require('morgan');
 const path = require('path');
@@ -19,9 +20,10 @@ const OAuth2Client = require('google-auth-library').OAuth2Client;
 
 
 const CLIENT_ID = '171417293160-m0dcbi10fgm434j0l73m1t9t0rnc48o8.apps.googleusercontent.com';
+const client = new OAuth2Client(CLIENT_ID);
 const app = express();
 
-
+app.use(cookieParser())
 app.use(morgan('tiny'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -33,8 +35,6 @@ app.use(express.static('public'))
 
 const storage = multer.diskStorage({
     filename: (req, file, cb) => {
-
-
         cb(null, file.originalname + '-' + Date.now() + path.extname(file.originalname))
     }
 });
@@ -42,7 +42,6 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage: storage,
     fileFilter: (req, file, cb) => {
-
         const filetypes = /jpeg|jpg|png|gif/;
         const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
         const mimetype = filetypes.test(file.mimetype);
@@ -54,15 +53,83 @@ const upload = multer({
     }
 }).single('image');
 
+auth = (req, res, next) => {
+    console.log(req);
+    next();
+
+}
+
 app.get('/', (req, res) => res.render('home'));
 app.get('/home', (req, res) => res.render('home'));
-app.get('/opladen', (req, res) => res.render('opladen'));
-app.get('/contact', (req, res) => res.render('contact'));
-app.get('/volgorde', (req, res) => res.render('volgorde'));
+app.get('/opladen', (req, res) => {
+    const token = req.cookies['auth-token'];
+    if (!token) {
+        res.render('login')
+    }
+    client.verifyIdToken({
+        idToken: token,
+        audience: CLIENT_ID,
+    }).then(ticket => {
+        if (ticket.getPayload().email === 'thomas.maclean@gmail.com') {
+            res.render('opladen')
+        } else {
+            res.render('nope')
+        }
+    })
+});
+app.get('/contact', (req, res) => {
+    const token = req.cookies['auth-token'];
+    if (!token) {
+        res.render('login')
+    }
+    client.verifyIdToken({
+        idToken: token,
+        audience: CLIENT_ID,
+    }).then(ticket => {
+        if (ticket.getPayload().email === 'thomas.maclean@gmail.com') {
+            res.render('contact')
+        } else {
+            res.render('nope')
+        }
+    })
+});
+app.get('/volgorde', (req, res) => {
+    const token = req.cookies['auth-token'];
+    if (!token) {
+        res.render('login')
+    }
+    client.verifyIdToken({
+        idToken: token,
+        audience: CLIENT_ID,
+    }).then(ticket => {
+        if (ticket.getPayload().email === 'thomas.maclean@gmail.com') {
+            images.find({})
+                .then(images => {
+                    console.log('images');
+
+                    res.render('volgorde', {
+                        images
+                    })
+                })
+        } else {
+            res.render('nope')
+        }
+    })
+
+
+});
+app.get('/story', (req, res) => res.render('story'));
 
 app.get('/test', (req, res) => {
     res.status(200).json({
         'message': 'hello world!'
+    })
+})
+
+app.delete('/data', (req, res) => {
+    //  images.remove({})
+    res.status(200).json({
+        'message': 'data is gone...'
     })
 })
 app.get('/data', (req, res) => {
@@ -105,15 +172,10 @@ app.post('/uploadfile', (req, res) => {
         if (err) {
             console.log('err1');
             console.log(err);
-
-            // res.render('index', {
-            //     msg: err
-            // });
         } else {
             if (req.file == undefined) {
 
                 console.log('no file???');
-
             } else {
                 // console.log(req.file);
 
