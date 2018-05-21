@@ -13,8 +13,10 @@ const bodyParser = require('body-parser');
 
 const multer = require('multer');
 //const db = require('monk')('localhost/test')
+
 const db = require('monk')(`mongodb://dbReadWrite:${process.env.MONGO_PW}@cluster0-shard-00-00-hfoch.mongodb.net:27017,cluster0-shard-00-01-hfoch.mongodb.net:27017,cluster0-shard-00-02-hfoch.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true`)
-let images = db.get('images')
+let images = db.get('images');
+let volgorde = db.get('volgorde');
 
 const OAuth2Client = require('google-auth-library').OAuth2Client;
 
@@ -58,9 +60,40 @@ auth = (req, res, next) => {
     next();
 
 }
-
+app.get('/init', (req, res) => {
+    volgorde.insert({
+        'id': 'volgorde',
+        'volgorde': []
+    })
+})
 app.get('/', (req, res) => res.render('home'));
 app.get('/home', (req, res) => res.render('home'));
+// app.get('/login', (req, res) => res.render('login'));
+// app.get('/nope', (req, res) => res.render('nope'));
+app.post('/setVolgorde', (req, res) => {
+    const token = req.cookies['auth-token'];
+
+    if (!token) {
+        res.render('login')
+    } else {
+        client.verifyIdToken({
+            idToken: token,
+            audience: CLIENT_ID,
+        }).then(ticket => {
+            if (ticket.getPayload().email === 'thomas.maclean@gmail.com') {
+
+                volgorde.update({
+                    id: 'volgorde'
+                }, req.body.nieuweVolgorde).then(v => {
+                    res.status(200).json(v);
+                })
+            } else {
+                res.render('nope')
+            }
+        })
+    }
+});
+
 app.get('/opladen', (req, res) => {
     const token = req.cookies['auth-token'];
 
@@ -127,14 +160,23 @@ app.get('/volgorde', (req, res) => {
             audience: CLIENT_ID,
         }).then(ticket => {
             if (ticket.getPayload().email === 'thomas.maclean@gmail.com') {
-                images.find({})
-                    .then(images => {
-                        console.log('images');
+                volgorde.find({
+                    id: 'volgorde'
+                }).then(volg => {
 
-                        res.render('volgorde', {
-                            images
+                    images.find({})
+                        .then(images => {
+                            console.log(volg[0].volgorde);
+
+                            let imagesOpVolgorde = volg[0].volgorde.map(v => images.find(i => i._id.toString() == v));
+                            console.log(imagesOpVolgorde);
+
+                            res.render('volgorde', {
+                                images: imagesOpVolgorde
+                            })
                         })
-                    })
+
+                })
             } else {
                 res.render('nope')
             }
@@ -155,14 +197,25 @@ app.get('/test', (req, res) => {
 })
 
 app.delete('/data', (req, res) => {
-    //  images.remove({})
-    res.status(200).json({
-        'message': 'data is gone...'
-    })
+    let reallyDelete = false;
+    if (reallyDelete) {
+        images.remove({})
+        volgorde.remove({})
+
+        volgorde.insert({
+            'id': 'volgorde',
+            'volgorde': []
+        })
+        res.status(200).json({
+            'message': 'data is gone...'
+        })
+    }
 })
-app.get('/data', (req, res) => {
+app.get('/getVolgordeJson', (req, res) => {
     console.log('gettting data');
-    images.find({})
+    volgorde.findOne({
+            id: 'volgorde'
+        })
         .then(d => {
             res.status(200).json(d);
         })
@@ -171,23 +224,6 @@ cloudinary.config({
     cloud_name: 'dictffhrv',
     api_key: 864653742581441,
     api_secret: process.env.API_SECRET_CLOUDINARY
-});
-
-app.post('/signin', (req, res) => {
-    let token = req.body.token;
-    const client = new OAuth2Client(CLIENT_ID);
-    async function verify() {
-        const ticket = await client.verifyIdToken({
-            idToken: token,
-            audience: CLIENT_ID,
-        });
-        const payload = ticket.getPayload();
-        const userid = payload['email'];
-        console.log(userid);
-
-        res.status(200).json(userid)
-    }
-    verify().catch(console.error);
 });
 
 app.post('/uploadfile', (req, res) => {
@@ -218,10 +254,22 @@ app.post('/uploadfile', (req, res) => {
                         description: req.query.desc
                     }
 
-                    images.insert(imageData);
-                    res.status(200).json({
-                        imageData
-                    })
+                    images.insert(imageData).then(img => {
+                        volgorde.find({
+                                id: 'volgorde'
+                            })
+                            .then(d => {
+                                console.log(d);
+
+                                d[0].volgorde.push(img._id)
+                                volgorde.update({
+                                    id: 'volgorde'
+                                }, d[0])
+                                res.status(200).json({
+                                    imageData
+                                })
+                            })
+                    });
                 });
 
             }

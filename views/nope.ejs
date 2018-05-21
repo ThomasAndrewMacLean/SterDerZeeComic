@@ -7,17 +7,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>NOPE</title>
+    <title>SDZ | Login</title>
     <meta name="google-signin-client_id" content="171417293160-m0dcbi10fgm434j0l73m1t9t0rnc48o8.apps.googleusercontent.com">
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="skeleton.css">
+    <link rel="stylesheet" href="main.css">
+    <style>
+        .center-login {
+            display: flex;
+            justify-content: space-evenly;
 
+        }
+    </style>
 </head>
 
 <body>
-    <h1>
-        <i id="naam">U</i> heeft geen toegang...</h1>
 
-    <a href="#" onclick="signOut();">Log uit</a> om vervolgens onder een ander account terug in te loggen
 
+    <main>
+        <h1>
+            <i id="naam">U</i> heeft geen toegang...</h1>
+        <hr>
+
+        <div class="center-login">
+            <div>
+                <a href="#" onclick="signOut();">Log uit</a> om vervolgens onder een ander account terug in te loggen
+                <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            </div>
+            <img height="250" src="https://media.giphy.com/media/bTmU4fa3xUyqY/giphy.gif" alt="access denied">
+        </div>
+    </main>
+
+    <footer>
+        <code>
+            made by:
+            <a href="mailto:thomas.maclean+work@gmail.com">thomas maclean</a>
+            <i class="emoji">🤖</i>
+
+            <%='© ' +new Date().getFullYear() %>
+        </code>
+    </footer>
     <script>
         function signOut() {
             var auth2 = gapi.auth2.getAuthInstance();
@@ -41,6 +70,8 @@
             d.setTime(d.getTime() + (10 * 24 * 60 * 60 * 1000));
             var expires = "expires=" + d.toUTCString();
             document.cookie = "auth-token=" + id_token + ";" + expires + ";path=/";
+
+            location.reload();
         }
     </script>
 </body>

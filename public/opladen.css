@@ -1,0 +1,27 @@
+#fileInput {
+    display: none;
+}
+/* dropbox */
+
+.is-dragover {
+    background: lightgoldenrodyellow;
+    cursor: move;
+}
+
+.canvas-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+canvas {
+    border: 1px dashed gainsboro;
+    border-radius: 5px;
+}
+
+#uploadButton:disabled {
+    cursor: not-allowed;
+    color: #555;
+    border: 1px solid #bbb;
+    background: #CCC;
+}

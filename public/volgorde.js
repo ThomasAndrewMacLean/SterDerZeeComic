@@ -1,7 +1,18 @@
-const api = 'http://localhost:8080/getImages'
+const api = 'http://localhost:8080/'
 
+let volgorde;
+let dragCard = null;
+let dropCard = null;
+
+ondrag_handler = (evt) => {
+    if (dragCard === null) {
+        dragCard = evt.target.id
+        evt.target.classList.remove('bovensteHelft')
+        evt.target.classList.remove('ondersteHelft')
+    }
+}
 dragover_handler = (evt) => {
-    //console.log(evt);
+    evt.preventDefault()
 
     let bovensteHelft = evt.target.offsetHeight / 2 + evt.target.offsetTop > evt.pageY;
 
@@ -17,3 +28,51 @@ dragleave_handler = (evt) => {
     evt.target.classList.remove('bovensteHelft')
     evt.target.classList.remove('ondersteHelft')
 }
+
+drop_handler = (evt) => {
+    dropCard = evt.target.id;
+
+    let erboven = evt.target.classList.contains('bovensteHelft');
+
+    console.log(erboven);
+
+    if (dropCard === dragCard) {
+        console.log('zelfde kaart')
+
+    } else {
+        indexDrag = volgorde.volgorde.indexOf(dragCard);
+        indexDrop = volgorde.volgorde.indexOf(dropCard);
+
+        if (!erboven) {
+            indexDrop++
+        }
+
+        volgorde.volgorde.splice(indexDrag, 1);
+        volgorde.volgorde.splice(indexDrop, 0, dragCard)
+
+        fetch(api + 'setVolgorde', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: "same-origin",
+            body: JSON.stringify({
+                nieuweVolgorde: volgorde,
+            }),
+        }).then(res => {
+            if (res.status === 200) {
+                location.reload();
+
+            }
+        })
+
+    }
+    evt.target.classList.remove('bovensteHelft')
+    evt.target.classList.remove('ondersteHelft')
+    dragCard = null;
+    dropCard = null;
+}
+
+fetch(api + 'getVolgordeJson').then(x => x.json()).then(x => {
+    volgorde = x;
+});

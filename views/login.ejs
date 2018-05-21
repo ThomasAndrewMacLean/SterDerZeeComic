@@ -7,15 +7,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login</title>
+    <title>SDZ | Login</title>
     <meta name="google-signin-client_id" content="171417293160-m0dcbi10fgm434j0l73m1t9t0rnc48o8.apps.googleusercontent.com">
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="skeleton.css">
+    <link rel="stylesheet" href="main.css">
+    <style>
+        .center-login {
+            display: flex;
+            justify-content: space-evenly;
 
+        }
+    </style>
 </head>
 
 <body>
-    <h1>login please...</h1>
+    <main>
+        <h1>login please...</h1>
+        <hr>
+        <div class="center-login">
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            <img height="250" src="https://media.giphy.com/media/ujvhLZGsTajgQ/giphy.gif" alt="monkey login">
+        </div>
+    </main>
+    <footer>
+        <code>
+            made by:
+            <a href="mailto:thomas.maclean+work@gmail.com">thomas maclean</a>
+            <i class="emoji">🤖</i>
 
-    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            <%='© ' +new Date().getFullYear() %>
+        </code>
+    </footer>
+
+
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script>
         function onSignIn(googleUser) {
