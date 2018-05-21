@@ -29,6 +29,31 @@ dragleave_handler = (evt) => {
     evt.target.classList.remove('ondersteHelft')
 }
 
+delete_handler = (evt) => {
+    let id = evt.target.id;
+    index = volgorde.volgorde.indexOf(id);
+
+    volgorde.volgorde.splice(index, 1);
+
+    fetch(api + 'setVolgorde', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: "same-origin",
+        body: JSON.stringify({
+            nieuweVolgorde: volgorde,
+        }),
+    }).then(res => {
+        if (res.status === 200) {
+            location.reload();
+
+        }
+    })
+
+
+
+}
 drop_handler = (evt) => {
     dropCard = evt.target.id;
 
