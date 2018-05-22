@@ -33,6 +33,7 @@
             <div>
                 <a href="#" onclick="signOut();">Log uit</a> om vervolgens onder een ander account terug in te loggen
                 <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                Herlaad de pagina manueel nadat je hebt ingelogd met een account dat toegang heeft.
             </div>
             <img height="250" src="https://media.giphy.com/media/bTmU4fa3xUyqY/giphy.gif" alt="access denied">
         </div>
@@ -71,7 +72,7 @@
             var expires = "expires=" + d.toUTCString();
             document.cookie = "auth-token=" + id_token + ";" + expires + ";path=/";
 
-            location.reload();
+            //location.reload();
         }
     </script>
 </body>

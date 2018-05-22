@@ -1,5 +1,4 @@
-
-const api = 'http://localhost:8080/uploadfile'
+const api =document.location.origin + '/uploadfile'
 const button = document.querySelector('#uploadButton');
 const cancelButton = document.querySelector('#cancelButton');
 const fileInput = document.querySelector('#fileInput');

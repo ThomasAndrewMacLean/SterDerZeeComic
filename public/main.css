@@ -69,6 +69,10 @@ footer {
     align-items: center;
 }
 
+.admin-header {
+    margin-top: 25px;
+}
+
 .loading {
     display: none;
     width: 100vw;

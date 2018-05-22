@@ -1,4 +1,4 @@
-const api = 'http://localhost:8080/'
+const api = document.location.origin + '/';
 
 let volgorde;
 let dragCard = null;

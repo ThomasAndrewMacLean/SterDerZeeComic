@@ -17,6 +17,7 @@ const multer = require('multer');
 const db = require('monk')(`mongodb://dbReadWrite:${process.env.MONGO_PW}@cluster0-shard-00-00-hfoch.mongodb.net:27017,cluster0-shard-00-01-hfoch.mongodb.net:27017,cluster0-shard-00-02-hfoch.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true`)
 let images = db.get('images');
 let volgorde = db.get('volgorde');
+let users = db.get('users');
 
 const OAuth2Client = require('google-auth-library').OAuth2Client;
 
@@ -61,10 +62,26 @@ auth = (req, res, next) => {
 
 }
 app.get('/init', (req, res) => {
-    volgorde.insert({
-        'id': 'volgorde',
-        'volgorde': []
-    })
+    // var usersd= [
+
+    //     {
+    //         "id": 1,
+    //         "email": "thomas.maclean@gmail.com"
+    //     },
+    //     {
+    //         "id": 2,
+    //         "email": "comicsterderzee@gmail.com"
+    //     },
+    // ];
+    // users.insert(usersd);
+    // volgorde.insert({
+    //     'id': 'volgorde',
+    //     'volgorde': []
+    // })
+    res.status(200).json('ok')
+})
+app.get('/users', (req, res) => {
+    users.find().then(d => res.status(200).json(d));
 })
 app.get('/', (req, res) => res.render('home'));
 app.get('/home', (req, res) => res.render('home'));
@@ -80,50 +97,96 @@ app.post('/setVolgorde', (req, res) => {
             idToken: token,
             audience: CLIENT_ID,
         }).then(ticket => {
-            if (ticket.getPayload().email === 'thomas.maclean@gmail.com') {
-
-                volgorde.update({
-                    id: 'volgorde'
-                }, req.body.nieuweVolgorde).then(v => {
-                    res.status(200).json(v);
-                })
-            } else {
-                res.render('nope')
-            }
+            users.find({
+                email: ticket.getPayload().email
+            }).then(emails => {
+                if (emails.length === 1) {
+                    volgorde.update({
+                        id: 'volgorde'
+                    }, req.body.nieuweVolgorde).then(v => {
+                        res.status(200).json(v);
+                    })
+                } else {
+                    console.log('TICKET IS NOT CORRECT EMAIL');
+                    res.render('nope')
+                }
+            })
         })
     }
 });
-
-app.get('/opladen', (req, res) => {
+app.post('/addUserToDb', (req, res) => {
     const token = req.cookies['auth-token'];
 
-    console.log(token);
-
-
     if (!token) {
-        console.log('SEND TO LOGIN');
-
         res.render('login')
     } else {
+        client.verifyIdToken({
+            idToken: token,
+            audience: CLIENT_ID,
+        }).then(ticket => {
+            users.find({
+                email: ticket.getPayload().email
+            }).then(emails => {
+                if (emails.length === 1) {
+                    users.insert({
+                        email: req.body.newEmail
+                    }).then(r => res.status(200).json(r))
+                } else {
+                    console.log('TICKET IS NOT CORRECT EMAIL');
+                    res.render('nope')
+                }
+            })
+        })
+    }
+});
+app.post('/removeUserFromDb', (req, res) => {
+    const token = req.cookies['auth-token'];
 
-
-        console.log('INIT VERIFYTOKEN');
-
+    if (!token) {
+        res.render('login')
+    } else {
+        client.verifyIdToken({
+            idToken: token,
+            audience: CLIENT_ID,
+        }).then(ticket => {
+            users.find({
+                email: ticket.getPayload().email
+            }).then(emails => {
+                if (emails.length === 1) {
+                    users.remove({
+                        email: req.body.newEmail
+                    }).then(r => res.status(200).json(r))
+                } else {
+                    console.log('TICKET IS NOT CORRECT EMAIL');
+                    res.render('nope')
+                }
+            })
+        })
+    }
+});
+app.get('/opladen', (req, res) => {
+    const token = req.cookies['auth-token'];
+    if (!token) {
+        console.log('SEND TO LOGIN');
+        res.render('login')
+    } else {
         client.verifyIdToken({
                 idToken: token,
                 audience: CLIENT_ID,
             }).then(ticket => {
-                if (ticket.getPayload().email === 'thomas.maclean@gmail.com') {
-                    res.render('opladen')
-                } else {
-                    console.log('TICKET IS NOT CORRECT EMAIL');
-
-                    res.render('nope')
-                }
+                users.find({
+                    email: ticket.getPayload().email
+                }).then(emails => {
+                    if (emails.length === 1) {
+                        res.render('opladen')
+                    } else {
+                        console.log('TICKET IS NOT CORRECT EMAIL');
+                        res.render('nope')
+                    }
+                })
             }) //.catch(err => console.log(err))
             .catch(err => {
                 console.log('ERROR CAUGHT... ');
-
                 console.log(err);
                 res.render('login')
             });
@@ -135,19 +198,58 @@ app.get('/contact', (req, res) => {
         res.render('login')
     } else {
         client.verifyIdToken({
-            idToken: token,
-            audience: CLIENT_ID,
-        }).then(ticket => {
-            if (ticket.getPayload().email === 'thomas.maclean@gmail.com') {
-                res.render('contact')
-            } else {
-                res.render('nope')
-            }
-        })
-        // .catch(err => {
-        //     console.log(err);
-        //     res.render('nope')
-        // });
+                idToken: token,
+                audience: CLIENT_ID,
+            }).then(ticket => {
+                users.find({
+                    email: ticket.getPayload().email
+                }).then(emails => {
+                    if (emails.length === 1) {
+                        res.render('contact')
+                    } else {
+                        console.log('TICKET IS NOT CORRECT EMAIL');
+                        res.render('nope')
+                    }
+                })
+            })
+            .catch(err => {
+                console.log('ERROR CAUGHT... ');
+
+                console.log(err);
+                res.render('login')
+            });
+    }
+});
+app.get('/adduser', (req, res) => {
+    const token = req.cookies['auth-token'];
+    if (!token) {
+        res.render('login')
+    } else {
+        client.verifyIdToken({
+                idToken: token,
+                audience: CLIENT_ID,
+            }).then(ticket => {
+                users.find({
+                    email: ticket.getPayload().email
+                }).then(emails => {
+                    if (emails.length === 1) {
+                        users.find().then(allUsers => {
+                            res.render('addUser', {
+                                users: allUsers
+                            });
+                        })
+                    } else {
+                        console.log('TICKET IS NOT CORRECT EMAIL');
+                        res.render('nope')
+                    }
+                })
+            })
+            .catch(err => {
+                console.log('ERROR CAUGHT... ');
+
+                console.log(err);
+                res.render('login')
+            });
     }
 });
 app.get('/volgorde', (req, res) => {
@@ -156,35 +258,43 @@ app.get('/volgorde', (req, res) => {
         res.render('login')
     } else {
         client.verifyIdToken({
-            idToken: token,
-            audience: CLIENT_ID,
-        }).then(ticket => {
-            if (ticket.getPayload().email === 'thomas.maclean@gmail.com') {
-                volgorde.find({
-                    id: 'volgorde'
-                }).then(volg => {
+                idToken: token,
+                audience: CLIENT_ID,
+            }).then(ticket => {
+                users.find({
+                    email: ticket.getPayload().email
+                }).then(emails => {
+                    if (emails.length === 1) {
+                        volgorde.find({
+                            id: 'volgorde'
+                        }).then(volg => {
 
-                    images.find({})
-                        .then(images => {
-                            console.log(volg[0].volgorde);
+                            images.find({})
+                                .then(images => {
+                                    console.log(volg[0].volgorde);
 
-                            let imagesOpVolgorde = volg[0].volgorde.map(v => images.find(i => i._id.toString() == v));
-                            console.log(imagesOpVolgorde);
+                                    let imagesOpVolgorde = volg[0].volgorde.map(v => images.find(i => i._id.toString() == v));
+                                    console.log(imagesOpVolgorde);
 
-                            res.render('volgorde', {
-                                images: imagesOpVolgorde
-                            })
+                                    res.render('volgorde', {
+                                        images: imagesOpVolgorde
+                                    })
+                                })
+
                         })
-
+                    } else {
+                        console.log('TICKET IS NOT CORRECT EMAIL');
+                        res.render('nope')
+                    }
                 })
-            } else {
-                res.render('nope')
-            }
-        })
-        // .catch(err => {
-        //     console.log(err);
-        //     res.render('nope')
-        // });
+
+            })
+            .catch(err => {
+                console.log('ERROR CAUGHT... ');
+
+                console.log(err);
+                res.render('login')
+            });
     }
 
 });

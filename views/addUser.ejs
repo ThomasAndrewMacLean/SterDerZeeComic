@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SDZ | Login</title>
+    <meta name="google-signin-client_id" content="171417293160-m0dcbi10fgm434j0l73m1t9t0rnc48o8.apps.googleusercontent.com">
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="skeleton.css">
+    <link rel="stylesheet" href="main.css">
+    <style>
+        .center-login {
+            display: flex;
+            justify-content: space-evenly;
+
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <main>
+        <nav>
+            <ul>
+                <li>
+                    <a class="nav-link" href="/home">home</a>
+                </li>
+                <li>
+                    <a class="nav-link" href="/opladen">opladen</a>
+                </li>
+                <li>
+                    <a class="nav-link" href="/volgorde">volgorde</a>
+                </li>
+                <li class="">
+                    <a class="nav-link" href="/contact">contact</a>
+                </li>
+                <li class="active">
+                    <a class="nav-link" href="/adduser">users</a>
+                </li>
+            </ul>
+        </nav>
+        <h1 class="admin-header">
+            Add user</h1>
+        <hr>
+        <p>Add email of user that can get access to admin area.</p>
+        <form>
+            <label for="email">Email to Add</label>
+            <input id="email" type="email" name="email" placeholder="email">
+            <input class="button button-primary" type="button" id="button" value="Add">
+        </form>
+        <p>Add email of user that can will get removed from DB.</p>
+        <form>
+            <label for="email">Email to Remove</label>
+            <input id="emailRemove" type="email" name="email" placeholder="email">
+            <input class="button" type="button" id="buttonRemove" value="Remove">
+        </form>
+
+        <% users.forEach(u => { %>
+            <ul>
+                <li onclick="setEmailToDelete(event)">
+                    <%= u.email%>
+                </li>
+            </ul>
+            <% }) %>
+    </main>
+
+    <footer>
+        <code>
+            made by:
+            <a href="mailto:thomas.maclean+work@gmail.com">thomas maclean</a>
+            <i class="emoji">🤖</i>
+
+            <%='© ' +new Date().getFullYear() %>
+        </code>
+    </footer>
+
+    <script>
+        const btn = document.getElementById('button');
+        const email = document.getElementById('email');
+        const btnRemove = document.getElementById('buttonRemove');
+        const emailRemove = document.getElementById('emailRemove');
+
+
+        setEmailToDelete = (evt) => {
+            console.log(evt)
+            emailRemove.value = evt.target.innerText
+        }
+
+        btn.addEventListener('click', () => {
+
+
+
+            fetch(document.location.origin + '/addUserToDb', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: "same-origin",
+                body: JSON.stringify({
+                    newEmail: email.value,
+                }),
+            }).then(res => {
+                if (res.status === 200) {
+                    location.reload();
+
+                }
+            })
+
+        })
+
+        btnRemove.addEventListener('click', () => {
+
+            fetch(document.location.origin + '/removeUserFromDb', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: "same-origin",
+                body: JSON.stringify({
+                    newEmail: emailRemove.value,
+                }),
+            }).then(res => {
+                if (res.status === 200) {
+                    location.reload();
+
+                }
+            })
+
+        })
+    </script>
+</body>
+
+</html>

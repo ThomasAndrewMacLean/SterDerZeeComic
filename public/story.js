@@ -1,4 +1,4 @@
-const api = 'http://localhost:8080/'
+const api = document.location.origin + '/';
 const img = document.querySelector('img');
 let data = null;
 let counter = 0;
