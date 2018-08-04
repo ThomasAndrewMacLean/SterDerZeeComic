@@ -20,6 +20,10 @@
     z-index: 999;
 }
 
+.red {
+    background: red;
+}
+
 .ondersteHelft::after {
     content: '';
     height: 20px;
@@ -29,4 +33,12 @@
     position: absolute;
     box-shadow: #999 0px 15px 20px 2px;
     z-index: 999;
+}
+
+.invisible {
+    display: none;
+}
+
+.small-margin{
+    margin:15px;
 }

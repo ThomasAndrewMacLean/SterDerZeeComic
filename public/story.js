@@ -22,7 +22,7 @@ fetch(api + 'strip').then(res => res.json()).then(data => {
 document.addEventListener('click', () => {
     counter++;
     console.log(counter % (images.length));
-    img.src = images[counter % (images.length - 1)].src;
+    img.src = images[counter % (images.length)].src;
 });
 
 
@@ -38,7 +38,9 @@ document.addEventListener('keyup', (e) => {
     {
         counter++;
     }
-    img.src = images[counter % (images.length - 1)].src;
+    console.log(counter % (images.length));
+
+    img.src = images[counter % (images.length)].src;
 });
 
 let hammer = new Hammer(img);
@@ -47,9 +49,9 @@ hammer.on('swipeleft', () => {
     if (counter < 0) {
         counter = images.length - 1
     }
-    img.src = images[counter % (images.length - 1)].src;
+    img.src = images[counter % (images.length)].src;
 })
 hammer.on('swiperight', () => {
     counter++
-    img.src = images[counter % (images.length - 1)].src;
+    img.src = images[counter % (images.length)].src;
 })

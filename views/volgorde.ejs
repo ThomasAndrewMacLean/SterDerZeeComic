@@ -38,27 +38,30 @@
         <h1 class="admin-header">Volgorde.</h1>
 
         <hr>
-        <p>Versleep de afbeeldingen om de volgorde aan te passen.</p>
+        <p class="small-margin">Versleep de afbeeldingen om de volgorde aan te passen.</p>
 
-        <% images.forEach(img => { %>
+        <button id="saveBtn" class="button small-margin">Save</button>
+        <div id="cardList">
+            <% images.forEach(img => { %>
 
 
-            <div class="card" draggable="true" id="<%=img._id %>" ondrop="drop_handler(event)" ondragleave="dragleave_handler(event)"
-                ondragover="dragover_handler(event);" ondrag="ondrag_handler(event)">
-                <img height="150" src="<%=img.url %>" />
-                <div>
-                    <%= img.name%>
+                <div class="card" draggable="true" id="<%=img._id %>" ondrop="drop_handler(event)" ondragleave="dragleave_handler(event)"
+                    ondragover="dragover_handler(event);" ondragstart="ondrag_handler(event)">
+                    <img height="150" src="<%=img.url %>" />
+                    <div>
+                        <%= img.name%>
+                    </div>
+                    <div>
+                        <%= img.description%>
+                    </div>
+                    <button id="del-<%=img._id %>" onclick="delete_handler(event)" class="button">verwijder 🗑</button>
                 </div>
-                <div>
-                    <%= img.description%>
-                </div>
-                <button id="<%=img._id %>" onclick="delete_handler(event)" class="button">verwijder 🗑</button>
-            </div>
 
 
 
 
-            <% }) %>
+                <% }) %>
+        </div>
 
     </main>
     <footer>
