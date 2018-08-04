@@ -1,6 +1,7 @@
 node_modules
 .env
 secret.txt
+σecret.txt
 .DS_Store
 yarn-debug.log*
 yarn-error.log*
