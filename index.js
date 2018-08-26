@@ -62,22 +62,6 @@ auth = (req, res, next) => {
 
 }
 app.get('/init', (req, res) => {
-    // var usersd= [
-
-    //     {
-    //         "id": 1,
-    //         "email": "thomas.maclean@gmail.com"
-    //     },
-    //     {
-    //         "id": 2,
-    //         "email": "comicsterderzee@gmail.com"
-    //     },
-    // ];
-    // users.insert(usersd);
-    // volgorde.insert({
-    //     'id': 'volgorde',
-    //     'volgorde': []
-    // })
     res.status(200).json('ok')
 })
 app.get('/users', (req, res) => {
