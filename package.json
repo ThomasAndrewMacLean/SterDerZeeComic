@@ -3,6 +3,10 @@
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
+    "now": {
+        "name": "my-app",
+        "alias": "sterderzee.be"
+    },
     "scripts": {
         "start": "node index.js",
         "dev": "nodemon index.js",
