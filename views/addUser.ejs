@@ -36,6 +36,9 @@
                 <li>
                     <a class="nav-link" href="/volgorde">volgorde</a>
                 </li>
+                <li>
+                    <a class="nav-link" href="/data">data</a>
+                </li>
                 <li class="">
                     <a class="nav-link" href="/contact">contact</a>
                 </li>
@@ -61,18 +64,18 @@
         </form>
 
         <% users.forEach(u => { %>
-            <ul>
-                <li onclick="setEmailToDelete(event)">
-                    <%= u.email%>
-                </li>
-            </ul>
-            <% }) %>
+        <ul>
+            <li onclick="setEmailToDelete(event)">
+                <%= u.email%>
+            </li>
+        </ul>
+        <% }) %>
     </main>
 
     <footer>
         <code>
             made by:
-            <a href="mailto:thomas.maclean+work@gmail.com">thomas maclean</a>
+            <a href="mailto:hello@thomasmaclean.be">thomas maclean</a>
             <i class="emoji">🤖</i>
 
             <%='© ' +new Date().getFullYear() %>

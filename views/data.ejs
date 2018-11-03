@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="normalize.css">
     <link rel="stylesheet" href="skeleton.css">
     <link rel="stylesheet" href="main.css">
-    <link rel="stylesheet" href="opladen.css">
+    <link rel="stylesheet" href="data.css">
 </head>
 
 <body>
@@ -22,13 +22,13 @@
                 <li>
                     <a class="nav-link" href="/home">home</a>
                 </li>
-                <li class="active">
+                <li>
                     <a class="nav-link" href="/opladen">opladen</a>
                 </li>
                 <li>
                     <a class="nav-link" href="/volgorde">volgorde</a>
                 </li>
-                <li>
+                <li class="active">
                     <a class="nav-link" href="/data">data</a>
                 </li>
                 <li>
@@ -39,29 +39,24 @@
                 </li>
             </ul>
         </nav>
-        <h1 class="admin-header">Afbeeldingen Opladen.</h1>
+        <h1 class="admin-header">Data.</h1>
         <hr>
-        <p>Selecteer een bestand via de knop hieronder of door een afbeelding op de pagina te slepen.
-            <br> Afbeeldingen worden later getoond in de volgorde van het opladen. Wil je deze veranderen ga dan naar
-            <a href="/volgorde">volgorde</a>
+        <p>Hier kan je de tekst aanpassen voor de titel, uitleg en knop op de homepagina.
         </p>
         <form>
             <div class="row">
                 <div class="six columns">
-                    <label for="fileInput">
-                        <a class="button">Tekening opladen...</a>
-                    </label>
-                    <input type="file" name="image" id="fileInput" onchange="changeEventHandler(event);">
-                    <label for="name">Naam</label>
-                    <input class="u-full-width" type="text" name="name" placeholder="blabla.jpeg">
-                    <label for="desc">Omschrijving</label>
-                    <input class="u-full-width" type="text" name="desc" placeholder="eerste pagina...">
+                    <label for="title">Title</label>
+                    <input class="u-full-width" type="text" name="title" placeholder="Ster der zee">
+                    <label for="tekst">Omschrijving</label>
+                    <input class="u-full-width" type="text" name="tekst" placeholder="Lorum ipsum">
+                    <label for="knop">Knop</label>
+                    <input class="u-full-width" type="text" name="knop" placeholder="LEES">
                     <button class="button" id="cancelButton">Cancel</button>
                     <input class="button button-primary" type="submit" value="opslaan" name="submit" id="uploadButton">
                 </div>
                 <div class="six columns canvas-container">
-                    <label for="canvas" class="u-full-width">Preview</label>
-                    <canvas class="u-full-width" height="400" width="400"></canvas>
+
                 </div>
             </div>
         </form>
@@ -70,7 +65,7 @@
     <footer>
         <code>
             made by:
-            <a href="mailto:thomas.maclean+work@gmail.com">thomas maclean</a>
+            <a href="mailto:hello@thomasmaclean.be">thomas maclean</a>
             <i class="emoji">🤖</i>
 
             <%='© ' +new Date().getFullYear() %>
@@ -84,7 +79,7 @@
         </div>
         <img class="loading-gif" src="https://i.giphy.com/media/W6ZwIlNEHxLAA/giphy-downsized.gif" alt="loading image">
     </div>
-    <script src="opladen.js"></script>
+    <script src="data.js"></script>
 
 </body>
 

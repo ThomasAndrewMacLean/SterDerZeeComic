@@ -61,7 +61,7 @@ uploadFileToServer = (evt) => {
     }
 
     fetch(api + `?name=${name}&desc=${desc}`, {
-        method: 'POST',
+        method: 'POST', 
         body: fd,
         processData: false,
         headers: {

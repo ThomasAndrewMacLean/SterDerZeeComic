@@ -176,6 +176,36 @@ app.get('/opladen', (req, res) => {
             });
     }
 });
+
+app.get('/data', (req, res) => {
+    const token = req.cookies['auth-token'];
+    if (!token) {
+        console.log('SEND TO LOGIN');
+        res.render('login')
+    } else {
+        client.verifyIdToken({
+                idToken: token,
+                audience: CLIENT_ID,
+            }).then(ticket => {
+                users.find({
+                    email: ticket.getPayload().email
+                }).then(emails => {
+                    if (emails.length === 1) {
+                        res.render('data')
+                    } else {
+                        console.log('TICKET IS NOT CORRECT EMAIL');
+                        res.render('nope')
+                    }
+                })
+            }) //.catch(err => console.log(err))
+            .catch(err => {
+                console.log('ERROR CAUGHT... ');
+                console.log(err);
+                res.render('login')
+            });
+    }
+});
+
 app.get('/contact', (req, res) => {
     const token = req.cookies['auth-token'];
     if (!token) {
@@ -385,4 +415,4 @@ app.post('/uploadfile', (req, res) => {
 });
 
 
-app.listen(process.env.PORT || 8083, () => console.log('All is ok'));
+app.listen(process.env.PORT || 8083, () => console.log('All is ok, check it on port ' + (process.env.PORT || 8083)));

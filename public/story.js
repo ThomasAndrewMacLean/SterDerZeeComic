@@ -44,14 +44,14 @@ document.addEventListener('keyup', (e) => {
 });
 
 let hammer = new Hammer(img);
-hammer.on('swipeleft', () => {
+hammer.on('swiperight', () => {
     counter--
     if (counter < 0) {
         counter = images.length - 1
     }
     img.src = images[counter % (images.length)].src;
 })
-hammer.on('swiperight', () => {
+hammer.on('swipeleft', () => {
     counter++
     img.src = images[counter % (images.length)].src;
 })

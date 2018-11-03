@@ -3,14 +3,11 @@
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
-    "now": {
-        "name": "my-app",
-        "alias": "sterderzee.be"
-    },
     "scripts": {
         "start": "node index.js",
         "dev": "nodemon index.js",
-        "debug": "DEBUG=express:* node index.js"
+        "debug": "DEBUG=express:* node index.js",
+        "noww": "now && now alias"
     },
     "author": "Thomas MacLean",
     "license": "ISC",
