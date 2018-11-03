@@ -1,12 +1,16 @@
 language: node_js
 node_js:
-  - "node"
+- node
 cache:
   directories:
-    - "node_modules" # This will tell Travis CI to cache the dependencies
-script: yarn install # Here you could also run the build step of your application
-before_deploy: yarn add now --no-save # Install Now CLI on Travis
+  - node_modules
+script: yarn install
+before_deploy: yarn add now --no-save
 deploy:
-  - provider: script
-    script: now --public --token $NOW_TOKEN -e API_SECRET_CLOUDINARY=$API_SECRET_CLOUDINARY -e MONGO_PW=$MONGO_PW -e GITHUBTOKEN=$GITHUBTOKEN && now alias --token $NOW_TOKEN
-    skip_cleanup: true
+- provider: script
+  script: now --public --token $NOW_TOKEN -e API_SECRET_CLOUDINARY=$API_SECRET_CLOUDINARY
+    -e MONGO_PW=$MONGO_PW -e GITHUBTOKEN=$GITHUBTOKEN && now alias --token $NOW_TOKEN
+  skip_cleanup: true
+notifications:
+  slack:
+    secure: VMCoP2bHjMn8N9sdRVwaGO8re0G6sKyNqlewovJ7a5m99H44ekZfApxghBJiwSFrab1xArqsM8JEsDxp4ysfwpzNXV31Ftm0STvi6xdMDukU0Y624oyjw0vn7fYgzeC8zjPqJ8/C5uDiAtAH6ZEFJHnSq3Z9rfz4uBXsf70kvbPB36/LfIOJ03YX7qywDTgcsb7rRHgmTBowdgnqXRDEYj37x5IhQjchZCtoH9AWBMSAgE44dArojsFA8qV4KCS6IL3PmNwNhO6Qh3v7OARzcOW124eQ9c81Rpc/yBrFu+eizcbKeZAOYXzsgzIwRg5kdAP6mXD7I+CKI59jEIWTt5bSBywuGbUYlo9GXnxCaGG9lhl09IJKHB4Pjh4yACoGMkmknFB27PSD+26WqRSb8B00FpHlu6yyS1SvWIvLUWuE6QEM9/V2M5mhTT2Y9lfcTcGtUp9BSde5UKldxEnmB8fdlSC4S9h9bUUxU1OatMl4l8qEHxspWvXZA0UgZeN53VcTSGlrzatG3EKSIxIglc74o0r9eRjkzsqGppDzkuVRN9I0CyHsXg8ddXPQ1NBqA4WuTed++rug3fLAnmuWDwTXqODUDJ7mteUkCUutoEUQDB1Zni9tiNtty0z0Tj9CM7Ij7cVQyNlOxr5FSm+R4zJrjAIvdLzwMHyn/wWZ0+Y=
