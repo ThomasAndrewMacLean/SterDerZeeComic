@@ -198,7 +198,7 @@ app.get('/opladen', (req, res) => {
           })
           .then(emails => {
             if (emails.length === 1) {
-              res.render('opladen');
+              res.render('opladen', {page: 'opladen'});
             } else {
               console.log('TICKET IS NOT CORRECT EMAIL');
               res.render('nope');
@@ -212,7 +212,6 @@ app.get('/opladen', (req, res) => {
       });
   }
 });
-
 app.get('/data', (req, res) => {
   const token = req.cookies['auth-token'];
   if (!token) {
@@ -231,6 +230,7 @@ app.get('/data', (req, res) => {
           })
           .then(emails => {
             if (emails.length === 1) {
+              data.page = 'data';
               res.render('data', data);
             } else {
               console.log('TICKET IS NOT CORRECT EMAIL');
@@ -245,7 +245,6 @@ app.get('/data', (req, res) => {
       });
   }
 });
-
 app.get('/contact', (req, res) => {
   const token = req.cookies['auth-token'];
   if (!token) {
@@ -263,7 +262,7 @@ app.get('/contact', (req, res) => {
           })
           .then(emails => {
             if (emails.length === 1) {
-              res.render('contact');
+              res.render('contact', {page: 'contact'});
             } else {
               console.log('TICKET IS NOT CORRECT EMAIL');
               res.render('nope');
@@ -297,7 +296,8 @@ app.get('/adduser', (req, res) => {
             if (emails.length === 1) {
               users.find().then(allUsers => {
                 res.render('addUser', {
-                  users: allUsers
+                  users: allUsers,
+                  page: 'adduser'
                 });
               });
             } else {
@@ -343,7 +343,8 @@ app.get('/volgorde', (req, res) => {
                     console.log(imagesOpVolgorde);
 
                     res.render('volgorde', {
-                      images: imagesOpVolgorde
+                      images: imagesOpVolgorde,
+                      page: 'volgorde'
                     });
                   });
                 });
@@ -370,7 +371,7 @@ app.get('/test', (req, res) => {
 });
 
 app.delete('/data', (req, res) => {
-  let reallyDelete = true;
+  let reallyDelete = false;
   if (reallyDelete) {
     images.remove({});
     volgorde.remove({});
@@ -483,7 +484,6 @@ app.post('/saveFormData', (req, res) => {
           })
           .then(emails => {
             if (emails.length === 1) {
-          
               fetch(githubApi, {
                 method: 'GET',
                 headers: {
@@ -503,16 +503,16 @@ app.post('/saveFormData', (req, res) => {
                     sha: j.sha,
                     content: Buffer.from(JSON.stringify(req.body)).toString('base64')
                   };
-                    fetch(githubApi, {
-                      method: 'PUT',
-                      headers: {
-                        authorization: `Bearer ${githubSecret}`,
-                        'Content-Type': 'application/json'
-                      },
-                      body: JSON.stringify(bodyForGithub)
-                    }).then(res => {
-                      console.log(res);
-                    });
+                  fetch(githubApi, {
+                    method: 'PUT',
+                    headers: {
+                      authorization: `Bearer ${githubSecret}`,
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(bodyForGithub)
+                  }).then(res => {
+                    console.log(res);
+                  });
                 });
 
               res.status(200).json({});
@@ -526,8 +526,8 @@ app.post('/saveFormData', (req, res) => {
       });
   }
 });
-app.get('/', (req, res) => res.render('home'));
-app.get('/home', (req, res) => res.render('home'));
-app.get('*/*', (req, res) => res.render('home'));
+app.get('/', (req, res) => res.render('home', data));
+app.get('/home', (req, res) => res.render('home', data));
+app.get('*/*', (req, res) => res.render('home', data));
 
 app.listen(process.env.PORT || 8083, () => console.log('All is ok, check it on port ' + (process.env.PORT || 8083)));

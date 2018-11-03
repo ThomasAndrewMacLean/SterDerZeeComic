@@ -41,15 +41,8 @@
         </div>
     </main>
 
-    <footer>
-        <code>
-            made by:
-            <a href="mailto:thomas.maclean+work@gmail.com">thomas maclean</a>
-            <i class="emoji">🤖</i>
+    <% include ./partials/footer %>
 
-            <%='© ' +new Date().getFullYear() %>
-        </code>
-    </footer>
     <script>
         function signOut() {
             var auth2 = gapi.auth2.getAuthInstance();

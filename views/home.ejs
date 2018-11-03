@@ -24,32 +24,21 @@
                 </li>
             </ul>
         </nav>
-        <h1>Ster der Zee.</h1>
+        <h1><%= title%></h1>
         <hr>
         <div class="row">
             <div class="six columns">
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Debitis, exercitationem commodi reiciendis
-                    velit
-                    dolorum fugit aut voluptates natus dolores ut sunt magnam excepturi porro similique animi nobis
-                    adipisci
-                    nam inventore!</p>
+                <p><%= omschrijving%></p>
             </div>
             <div class="six columns center">
-                <a href="/story" class="button button-primary">Lees</a>
+                <a href="/story" class="button button-primary"><%= knop%></a>
             </div>
         </div>
 
 
     </main>
-    <footer>
-        <code>
-            made by:
-            <a href="mailto:hello@thomasmaclean.be">thomas maclean</a>
-            <i class="emoji">🤖</i>
+    <% include ./partials/footer %>
 
-            <%='© ' +new Date().getFullYear() %>
-        </code>
-    </footer>
 
 </body>
 

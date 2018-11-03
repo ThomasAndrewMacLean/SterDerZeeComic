@@ -1,0 +1,30 @@
+<!-- views/partials/navbar.ejs -->
+
+<nav>
+    <ul>
+        <li <% if (page==="home" ) { %> class="active"
+        <% } %>>
+            <a class="nav-link" href="/home">home</a>
+        </li>
+        <li <% if (page==="opladen" ) { %> class="active"
+        <% } %>>
+            <a class="nav-link" href="/opladen">opladen</a>
+        </li>
+        <li <% if (page==="volgorde" ) { %> class="active"
+        <% } %>>
+            <a class="nav-link" href="/volgorde">volgorde</a>
+        </li>
+        <li <% if (page==="data" ) { %> class="active"
+        <% } %>>
+            <a class="nav-link" href="/data">data</a>
+        </li>
+        <li <% if (page==="contact" ) { %> class="active"
+            <% } %>>
+            <a class="nav-link" href="/contact">contact</a>
+        </li>
+        <li  <% if (page==="adduser" ) { %> class="active"
+        <% } %>>
+            <a class="nav-link" href="/adduser">users</a>
+        </li>
+    </ul>
+</nav>

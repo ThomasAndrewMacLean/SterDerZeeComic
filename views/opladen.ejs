@@ -17,28 +17,8 @@
 
 <body>
     <main>
-        <nav>
-            <ul>
-                <li>
-                    <a class="nav-link" href="/home">home</a>
-                </li>
-                <li class="active">
-                    <a class="nav-link" href="/opladen">opladen</a>
-                </li>
-                <li>
-                    <a class="nav-link" href="/volgorde">volgorde</a>
-                </li>
-                <li>
-                    <a class="nav-link" href="/data">data</a>
-                </li>
-                <li>
-                    <a class="nav-link" href="/contact">contact</a>
-                </li>
-                <li>
-                    <a class="nav-link" href="/adduser">users</a>
-                </li>
-            </ul>
-        </nav>
+        <% include ./partials/navbar %>
+
         <h1 class="admin-header">Afbeeldingen Opladen.</h1>
         <hr>
         <p>Selecteer een bestand via de knop hieronder of door een afbeelding op de pagina te slepen.
@@ -67,15 +47,8 @@
         </form>
 
     </main>
-    <footer>
-        <code>
-            made by:
-            <a href="mailto:thomas.maclean+work@gmail.com">thomas maclean</a>
-            <i class="emoji">🤖</i>
+    <% include ./partials/footer %>
 
-            <%='© ' +new Date().getFullYear() %>
-        </code>
-    </footer>
 
     <div class="loading">
         <div class="loading-msg">
