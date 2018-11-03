@@ -17,7 +17,8 @@ const multer = require('multer');
 const githubApi =
   'https://api.github.com/repos/ThomasAndrewMacLean/SterDerZeeComic/contents/public/data.json';
 
-  const githubSecret = process.env.GITHUBTOKEN;
+const githubSecret = process.env.GITHUBTOKEN;
+const fetch = require('node-fetch');
 //const db = require('monk')('localhost/test')
 
 const db = require('monk')(`mongodb://dbReadWrite:${
@@ -482,7 +483,39 @@ app.post('/saveFormData', (req, res) => {
           })
           .then(emails => {
             if (emails.length === 1) {
-              res.status(200).send();
+          
+              fetch(githubApi, {
+                method: 'GET',
+                headers: {
+                  authorization: `Bearer ${githubSecret}`,
+                  'Content-Type': 'application/json'
+                }
+              })
+                .then(res => res.json())
+                .then(j => {
+                  console.log(j);
+                  const bodyForGithub = {
+                    message: 'update the data',
+                    committer: {
+                      name: 'Ster der zee site',
+                      email: 'comicsterderzee@gmail.com'
+                    },
+                    sha: j.sha,
+                    content: Buffer.from(JSON.stringify(req.body)).toString('base64')
+                  };
+                    fetch(githubApi, {
+                      method: 'PUT',
+                      headers: {
+                        authorization: `Bearer ${githubSecret}`,
+                        'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify(bodyForGithub)
+                    }).then(res => {
+                      console.log(res);
+                    });
+                });
+
+              res.status(200).json({});
             } else {
               res.status(403).send();
             }
