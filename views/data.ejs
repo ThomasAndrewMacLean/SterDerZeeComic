@@ -43,16 +43,15 @@
         <hr>
         <p>Hier kan je de tekst aanpassen voor de titel, uitleg en knop op de homepagina.
         </p>
-        <form>
+        <form id="dataForm">
             <div class="row">
                 <div class="six columns">
                     <label for="title">Title</label>
-                    <input class="u-full-width" type="text" name="title" placeholder="Ster der zee">
+                    <input class="u-full-width" type="text" name="title" placeholder="Ster der zee" value="<%= title%>">
                     <label for="tekst">Omschrijving</label>
-                    <input class="u-full-width" type="text" name="tekst" placeholder="Lorum ipsum">
+                    <input class="u-full-width" type="text" name="tekst" placeholder="Lorum ipsum" value="<%= omschrijving%>">
                     <label for="knop">Knop</label>
-                    <input class="u-full-width" type="text" name="knop" placeholder="LEES">
-                    <button class="button" id="cancelButton">Cancel</button>
+                    <input class="u-full-width" type="text" name="knop" placeholder="LEES" value="<%= knop%>">
                     <input class="button button-primary" type="submit" value="opslaan" name="submit" id="uploadButton">
                 </div>
                 <div class="six columns canvas-container">
