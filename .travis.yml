@@ -8,5 +8,5 @@ script: yarn install # Here you could also run the build step of your applicatio
 before_deploy: yarn add now --no-save # Install Now CLI on Travis
 deploy:
   - provider: script
-    script: now --public --token $NOW_TOKEN && now alias --token $NOW_TOKEN
+    script: now --public --token $NOW_TOKEN -e API_SECRET_CLOUDINARY=$API_SECRET_CLOUDINARY -e MONGO_PW=$MONGO_PW && now alias --token $NOW_TOKEN -e API_SECRET_CLOUDINARY=$API_SECRET_CLOUDINARY -e MONGO_PW=$MONGO_PW
     skip_cleanup: true
