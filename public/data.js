@@ -1,15 +1,16 @@
 const api = document.location.origin + '/';
 const dataForm = document.getElementById('dataForm');
-var code = document.getElementById('code').contentWindow.document;
-var html = document.getElementById('omschrijving');
+const code = document.getElementById('code');
+const html = document.getElementById('omschrijving');
+const succes = document.getElementById('succes');
 
 const sendData = e => {
   e.preventDefault();
-  var object = {};
+  const object = {};
   new FormData(dataForm).forEach((value, key) => {
     object[key] = value;
   });
-  var jsonFormData = JSON.stringify(object);
+  const jsonFormData = JSON.stringify(object);
   fetch(api + 'saveFormData', {
     method: 'POST',
     headers: {
@@ -18,22 +19,22 @@ const sendData = e => {
     credentials: 'same-origin',
     body: jsonFormData
   }).then(res => {
+    console.log(res);
+
     if (res.status === 200) {
       console.log('it worked');
-
-      //  location.reload();
+      succes.style.display = 'inline';
+      setInterval(() => {
+        succes.style.display = 'none';
+      }, 5000);
     }
   });
 };
 
-code.open();
-  code.writeln(html.value);
-  code.close();
+code.innerHTML = html.value;
 
-document.body.onkeyup = function () {
-  code.open();
-  code.writeln(html.value);
-  code.close();
+document.body.onkeyup = () => {
+  code.innerHTML = html.value;
 };
 
 dataForm.addEventListener('submit', sendData);

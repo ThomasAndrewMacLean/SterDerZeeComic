@@ -512,10 +512,10 @@ app.post('/saveFormData', (req, res) => {
                     body: JSON.stringify(bodyForGithub)
                   }).then(res => {
                     console.log(res);
+                    res.status(res.status).json({});
                   });
                 });
 
-              res.status(200).json({});
             } else {
               res.status(403).send();
             }

@@ -1,0 +1,21 @@
+#code {
+    border: 1px dashed gainsboro;
+    min-height: 15rem;
+    padding: 2rem;
+}
+
+#omschrijving {
+    min-height: 15rem;
+}
+
+#succes {
+    position: fixed;
+    display: none;
+    color: white;
+    bottom: 0;
+    z-index: 1;
+    padding: 3rem;
+    left: 0;
+    right: 0;
+    background: #00d1b2;
+}
