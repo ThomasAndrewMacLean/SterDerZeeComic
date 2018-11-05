@@ -34,7 +34,7 @@
                     <textarea class="u-full-width textarea" id="omschrijving" type="text" name="omschrijving"
                         placeholder="Lorum ipsum"><%= omschrijving%></textarea>
                     <label for="knop">Knop</label>
-                    <input class="u-full-width" type="text" name="knop" placeholder="LEES" value="<%= knop%>">
+                    <input class="u-full-width" type="text" id="knop" name="knop" placeholder="LEES" value="<%= knop%>">
                     <input class="button button-primary" type="submit" value="opslaan" name="submit" id="uploadButton">
                 </div>
                 <div class="six columns canvas-container">
@@ -42,7 +42,7 @@
                 </div>
             </div>
         </form>
-        <div id="succes" class="notification is-primary">Opgeslaan. Wijzigingen worden gepubliceerd en zullen over 5
+        <div id="succes">Opgeslaan. Wijzigingen worden gepubliceerd en zullen over 5
             minuten live staan.</div>
     </main>
     <% include ./partials/footer %>

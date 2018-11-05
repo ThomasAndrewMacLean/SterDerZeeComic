@@ -491,9 +491,8 @@ app.post('/saveFormData', (req, res) => {
                   'Content-Type': 'application/json'
                 }
               })
-                .then(res => res.json())
+                .then(resp => resp.json())
                 .then(j => {
-                  console.log(j);
                   const bodyForGithub = {
                     message: 'update the data',
                     committer: {
@@ -510,10 +509,8 @@ app.post('/saveFormData', (req, res) => {
                       'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(bodyForGithub)
-                  }).then(res => {
-                    console.log(res);
-
-                    return res.status(res.status).json({});
+                  }).then(resp => {
+                    res.status(resp.status).json({});
                   });
                 });
             } else {

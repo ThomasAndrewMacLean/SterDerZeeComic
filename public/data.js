@@ -4,6 +4,12 @@ const code = document.getElementById('code');
 const html = document.getElementById('omschrijving');
 const succes = document.getElementById('succes');
 
+const object = {};
+new FormData(dataForm).forEach((value, key) => {
+  object[key] = value;
+});
+let initialFormData = JSON.stringify(object);
+
 const sendData = e => {
   e.preventDefault();
   const object = {};
@@ -11,6 +17,14 @@ const sendData = e => {
     object[key] = value;
   });
   const jsonFormData = JSON.stringify(object);
+
+  if (initialFormData === jsonFormData) {
+    console.log('sameData');
+
+    return;
+  }
+
+  initialFormData = jsonFormData;
   fetch(api + 'saveFormData', {
     method: 'POST',
     headers: {
@@ -19,12 +33,7 @@ const sendData = e => {
     credentials: 'same-origin',
     body: jsonFormData
   }).then(res => {
-      console.log('jkl');
-      
-    console.log(res);
-
     if (res.status === 200) {
-      console.log('it worked');
       succes.style.display = 'inline';
       setInterval(() => {
         succes.style.display = 'none';
