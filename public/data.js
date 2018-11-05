@@ -19,6 +19,8 @@ const sendData = e => {
     credentials: 'same-origin',
     body: jsonFormData
   }).then(res => {
+      console.log('jkl');
+      
     console.log(res);
 
     if (res.status === 200) {
