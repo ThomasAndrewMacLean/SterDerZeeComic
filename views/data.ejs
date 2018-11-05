@@ -22,8 +22,8 @@
         <h1 class="admin-header">Data.</h1>
         <hr>
         <p>Hier kan je de tekst aanpassen voor de titel, uitleg en knop op de homepagina.
-        <br><br>
-        <strong>Dit kan wel een vijftal minuten duren eer dit live staat.</strong>
+            <br><br>
+            <strong>Dit kan wel een vijftal minuten duren eer dit live staat.</strong>
         </p>
         <form id="dataForm">
             <div class="row">
@@ -31,13 +31,13 @@
                     <label for="title">Title</label>
                     <input class="u-full-width" type="text" name="title" placeholder="Ster der zee" value="<%= title%>">
                     <label for="tekst">Omschrijving</label>
-                    <textarea class="u-full-width textarea" type="text" name="omschrijving" placeholder="Lorum ipsum"><%= omschrijving%></textarea>
+                    <textarea class="u-full-width textarea" id="omschrijving" type="text" name="omschrijving" placeholder="Lorum ipsum"><%= omschrijving%></textarea>
                     <label for="knop">Knop</label>
                     <input class="u-full-width" type="text" name="knop" placeholder="LEES" value="<%= knop%>">
                     <input class="button button-primary" type="submit" value="opslaan" name="submit" id="uploadButton">
                 </div>
                 <div class="six columns canvas-container">
-
+                    <iframe id="code" frameborder="1"></iframe>
                 </div>
             </div>
         </form>
