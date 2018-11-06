@@ -34,6 +34,12 @@ const CLIENT_ID =
   '171417293160-m0dcbi10fgm434j0l73m1t9t0rnc48o8.apps.googleusercontent.com';
 const client = new OAuth2Client(CLIENT_ID);
 const app = express();
+const Sentry = require('@sentry/node');
+Sentry.init({
+  dsn: 'https://b9265cc21d714c13bd683b33b97c6de3@sentry.io/1316741'
+});
+app.use(Sentry.Handlers.requestHandler());
+app.use(Sentry.Handlers.errorHandler());
 
 app.use(cookieParser());
 app.use(morgan('tiny'));

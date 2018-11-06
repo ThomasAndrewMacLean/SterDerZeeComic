@@ -12,6 +12,7 @@
     "author": "Thomas MacLean",
     "license": "ISC",
     "dependencies": {
+        "@sentry/node": "^4.2.4",
         "body-parser": "^1.18.3",
         "cloudinary": "^1.11.0",
         "cookie-parser": "^1.4.3",
